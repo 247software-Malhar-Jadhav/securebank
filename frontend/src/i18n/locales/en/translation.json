@@ -1,0 +1,213 @@
+{
+  "app": {
+    "name": "SecureBank",
+    "tagline": "Your trusted digital bank"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "accounts": "Accounts",
+    "transfer": "Transfer",
+    "beneficiaries": "Beneficiaries",
+    "assistant": "Assistant",
+    "auditLogs": "Audit Logs"
+  },
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "confirm": "Confirm",
+    "add": "Add",
+    "open": "Open",
+    "back": "Back",
+    "loading": "Loading…",
+    "search": "Search",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "retry": "Retry",
+    "viewAll": "View all",
+    "amount": "Amount",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status",
+    "type": "Type",
+    "reference": "Reference",
+    "balance": "Balance",
+    "actions": "Actions"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language",
+    "select": "Select language"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to your SecureBank account",
+    "registerTitle": "Create your account",
+    "registerSubtitle": "Open a SecureBank account in minutes",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "preferredLocale": "Preferred language",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signingIn": "Signing in…",
+    "creatingAccount": "Creating account…",
+    "logout": "Log out",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginSuccess": "Welcome back, {{name}}!",
+    "registerSuccess": "Account created. Welcome to SecureBank!",
+    "validation": {
+      "usernameRequired": "Username is required",
+      "usernameMin": "Username must be at least 3 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email address",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "greeting": "Hello, {{name}}",
+    "totalBalance": "Total balance",
+    "yourAccounts": "Your accounts",
+    "recentTransactions": "Recent transactions",
+    "spendingInsights": "Spending insights",
+    "aiSummary": "AI summary",
+    "noTransactions": "No transactions yet",
+    "noAccounts": "You have no accounts yet"
+  },
+  "accounts": {
+    "title": "Accounts",
+    "accountNumber": "Account number",
+    "openAccount": "Open account",
+    "openAccountTitle": "Open a new account",
+    "openAccountDesc": "Choose an account type and currency to get started.",
+    "detailTitle": "Account details",
+    "transactions": "Transactions",
+    "openedOn": "Opened on",
+    "openSuccess": "Account opened successfully",
+    "type": {
+      "SAVINGS": "Savings",
+      "CURRENT": "Current",
+      "FIXED_DEPOSIT": "Fixed deposit"
+    },
+    "statusLabel": {
+      "ACTIVE": "Active",
+      "FROZEN": "Frozen",
+      "CLOSED": "Closed"
+    }
+  },
+  "transactions": {
+    "type": {
+      "DEPOSIT": "Deposit",
+      "WITHDRAWAL": "Withdrawal",
+      "TRANSFER": "Transfer"
+    },
+    "statusLabel": {
+      "PENDING": "Pending",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "REVERSED": "Reversed"
+    }
+  },
+  "transfer": {
+    "title": "Send money",
+    "subtitle": "Transfer funds securely between accounts",
+    "fromAccount": "From account",
+    "selectAccount": "Select an account",
+    "toBeneficiary": "To beneficiary",
+    "toAccountNumber": "Destination account number",
+    "selectBeneficiary": "Select a saved beneficiary",
+    "orEnterManually": "or enter an account number",
+    "send": "Send money",
+    "sending": "Sending…",
+    "success": "Transfer complete",
+    "successDetail": "Your transfer of {{amount}} was successful.",
+    "referenceLabel": "Reference",
+    "newTransfer": "New transfer",
+    "validation": {
+      "fromRequired": "Choose an account to send from",
+      "toRequired": "Enter a destination account number",
+      "amountRequired": "Enter an amount",
+      "amountPositive": "Amount must be greater than zero",
+      "amountFormat": "Enter a valid amount (up to 2 decimals)",
+      "sameAccount": "Source and destination cannot be the same"
+    }
+  },
+  "beneficiaries": {
+    "title": "Beneficiaries",
+    "subtitle": "Manage the people and accounts you pay",
+    "add": "Add beneficiary",
+    "addTitle": "Add a beneficiary",
+    "addDesc": "Save a payee so you can transfer to them quickly.",
+    "name": "Name",
+    "accountNumber": "Account number",
+    "bankName": "Bank name",
+    "empty": "You haven't added any beneficiaries yet",
+    "addSuccess": "Beneficiary added",
+    "validation": {
+      "nameRequired": "Name is required",
+      "accountRequired": "Account number is required"
+    }
+  },
+  "insights": {
+    "title": "Spending insights",
+    "totalSpent": "Total spent",
+    "byCategory": "By category",
+    "period": "Period",
+    "noData": "Not enough data to show insights yet"
+  },
+  "assistant": {
+    "title": "Ask SecureBank",
+    "subtitle": "Your AI banking assistant",
+    "placeholder": "Ask about your spending, accounts, or banking…",
+    "send": "Ask",
+    "thinking": "Thinking…",
+    "empty": "Ask me anything about your accounts or finances.",
+    "poweredBy": "Answered by",
+    "sourceLLM": "AI assistant",
+    "sourceFALLBACK": "SecureBank rules",
+    "suggestions": {
+      "label": "Try asking",
+      "s1": "How much did I spend this month?",
+      "s2": "What is my total balance?",
+      "s3": "How do I open a savings account?"
+    }
+  },
+  "audit": {
+    "title": "Audit logs",
+    "subtitle": "Immutable record of every state change",
+    "actor": "Actor",
+    "action": "Action",
+    "entity": "Entity",
+    "entityId": "Entity ID",
+    "details": "Details",
+    "empty": "No audit entries found"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Check your connection and retry.",
+    "unauthorized": "Your session has expired. Please sign in again.",
+    "forbidden": "You don't have permission to do that.",
+    "notFound": "We couldn't find what you were looking for.",
+    "loadFailed": "Failed to load data.",
+    "pageNotFound": "Page not found",
+    "pageNotFoundDesc": "The page you're looking for doesn't exist.",
+    "goHome": "Go to dashboard",
+    "boundaryTitle": "Unexpected error",
+    "boundaryDesc": "The application hit an unexpected error. Try reloading.",
+    "reload": "Reload"
+  }
+}

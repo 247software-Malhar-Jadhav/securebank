@@ -1,0 +1,213 @@
+{
+  "app": {
+    "name": "सिक्योरबैंक",
+    "tagline": "आपका भरोसेमंद डिजिटल बैंक"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "accounts": "खाते",
+    "transfer": "स्थानांतरण",
+    "beneficiaries": "लाभार्थी",
+    "assistant": "सहायक",
+    "auditLogs": "ऑडिट लॉग"
+  },
+  "common": {
+    "submit": "सबमिट करें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "close": "बंद करें",
+    "confirm": "पुष्टि करें",
+    "add": "जोड़ें",
+    "open": "खोलें",
+    "back": "वापस",
+    "loading": "लोड हो रहा है…",
+    "search": "खोजें",
+    "all": "सभी",
+    "none": "कोई नहीं",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "retry": "पुनः प्रयास करें",
+    "viewAll": "सभी देखें",
+    "amount": "राशि",
+    "description": "विवरण",
+    "date": "तारीख",
+    "status": "स्थिति",
+    "type": "प्रकार",
+    "reference": "संदर्भ",
+    "balance": "शेष राशि",
+    "actions": "कार्रवाई"
+  },
+  "theme": {
+    "toggle": "थीम बदलें",
+    "light": "उजला",
+    "dark": "गहरा"
+  },
+  "language": {
+    "label": "भाषा",
+    "select": "भाषा चुनें"
+  },
+  "auth": {
+    "loginTitle": "पुनः स्वागत है",
+    "loginSubtitle": "अपने सिक्योरबैंक खाते में साइन इन करें",
+    "registerTitle": "अपना खाता बनाएं",
+    "registerSubtitle": "कुछ ही मिनटों में सिक्योरबैंक खाता खोलें",
+    "username": "उपयोगकर्ता नाम",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "firstName": "पहला नाम",
+    "lastName": "उपनाम",
+    "preferredLocale": "पसंदीदा भाषा",
+    "signIn": "साइन इन करें",
+    "signUp": "साइन अप करें",
+    "signingIn": "साइन इन हो रहा है…",
+    "creatingAccount": "खाता बनाया जा रहा है…",
+    "logout": "लॉग आउट करें",
+    "noAccount": "खाता नहीं है?",
+    "haveAccount": "पहले से खाता है?",
+    "loginSuccess": "पुनः स्वागत है, {{name}}!",
+    "registerSuccess": "खाता बन गया। सिक्योरबैंक में आपका स्वागत है!",
+    "validation": {
+      "usernameRequired": "उपयोगकर्ता नाम आवश्यक है",
+      "usernameMin": "उपयोगकर्ता नाम कम से कम 3 अक्षरों का होना चाहिए",
+      "emailRequired": "ईमेल आवश्यक है",
+      "emailInvalid": "एक वैध ईमेल पता दर्ज करें",
+      "passwordRequired": "पासवर्ड आवश्यक है",
+      "passwordMin": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+      "firstNameRequired": "पहला नाम आवश्यक है",
+      "lastNameRequired": "उपनाम आवश्यक है"
+    }
+  },
+  "dashboard": {
+    "title": "डैशबोर्ड",
+    "greeting": "नमस्ते, {{name}}",
+    "totalBalance": "कुल शेष राशि",
+    "yourAccounts": "आपके खाते",
+    "recentTransactions": "हाल के लेन-देन",
+    "spendingInsights": "खर्च का विश्लेषण",
+    "aiSummary": "एआई सारांश",
+    "noTransactions": "अभी तक कोई लेन-देन नहीं",
+    "noAccounts": "अभी तक आपका कोई खाता नहीं है"
+  },
+  "accounts": {
+    "title": "खाते",
+    "accountNumber": "खाता संख्या",
+    "openAccount": "खाता खोलें",
+    "openAccountTitle": "एक नया खाता खोलें",
+    "openAccountDesc": "शुरू करने के लिए खाता प्रकार और मुद्रा चुनें।",
+    "detailTitle": "खाता विवरण",
+    "transactions": "लेन-देन",
+    "openedOn": "खोलने की तारीख",
+    "openSuccess": "खाता सफलतापूर्वक खोला गया",
+    "type": {
+      "SAVINGS": "बचत",
+      "CURRENT": "चालू",
+      "FIXED_DEPOSIT": "सावधि जमा"
+    },
+    "statusLabel": {
+      "ACTIVE": "सक्रिय",
+      "FROZEN": "फ्रोज़न",
+      "CLOSED": "बंद"
+    }
+  },
+  "transactions": {
+    "type": {
+      "DEPOSIT": "जमा",
+      "WITHDRAWAL": "निकासी",
+      "TRANSFER": "स्थानांतरण"
+    },
+    "statusLabel": {
+      "PENDING": "लंबित",
+      "COMPLETED": "पूर्ण",
+      "FAILED": "विफल",
+      "REVERSED": "वापस किया गया"
+    }
+  },
+  "transfer": {
+    "title": "पैसे भेजें",
+    "subtitle": "खातों के बीच सुरक्षित रूप से धन स्थानांतरित करें",
+    "fromAccount": "किस खाते से",
+    "selectAccount": "एक खाता चुनें",
+    "toBeneficiary": "लाभार्थी को",
+    "toAccountNumber": "गंतव्य खाता संख्या",
+    "selectBeneficiary": "एक सहेजा गया लाभार्थी चुनें",
+    "orEnterManually": "या खाता संख्या दर्ज करें",
+    "send": "पैसे भेजें",
+    "sending": "भेजा जा रहा है…",
+    "success": "स्थानांतरण पूर्ण",
+    "successDetail": "{{amount}} का आपका स्थानांतरण सफल रहा।",
+    "referenceLabel": "संदर्भ",
+    "newTransfer": "नया स्थानांतरण",
+    "validation": {
+      "fromRequired": "भेजने के लिए एक खाता चुनें",
+      "toRequired": "गंतव्य खाता संख्या दर्ज करें",
+      "amountRequired": "राशि दर्ज करें",
+      "amountPositive": "राशि शून्य से अधिक होनी चाहिए",
+      "amountFormat": "एक वैध राशि दर्ज करें (2 दशमलव तक)",
+      "sameAccount": "स्रोत और गंतव्य एक ही नहीं हो सकते"
+    }
+  },
+  "beneficiaries": {
+    "title": "लाभार्थी",
+    "subtitle": "जिन्हें आप भुगतान करते हैं उन्हें प्रबंधित करें",
+    "add": "लाभार्थी जोड़ें",
+    "addTitle": "एक लाभार्थी जोड़ें",
+    "addDesc": "एक भुगतानकर्ता सहेजें ताकि आप उन्हें जल्दी से स्थानांतरित कर सकें।",
+    "name": "नाम",
+    "accountNumber": "खाता संख्या",
+    "bankName": "बैंक का नाम",
+    "empty": "आपने अभी तक कोई लाभार्थी नहीं जोड़ा है",
+    "addSuccess": "लाभार्थी जोड़ा गया",
+    "validation": {
+      "nameRequired": "नाम आवश्यक है",
+      "accountRequired": "खाता संख्या आवश्यक है"
+    }
+  },
+  "insights": {
+    "title": "खर्च का विश्लेषण",
+    "totalSpent": "कुल खर्च",
+    "byCategory": "श्रेणी के अनुसार",
+    "period": "अवधि",
+    "noData": "विश्लेषण दिखाने के लिए अभी पर्याप्त डेटा नहीं है"
+  },
+  "assistant": {
+    "title": "सिक्योरबैंक से पूछें",
+    "subtitle": "आपका एआई बैंकिंग सहायक",
+    "placeholder": "अपने खर्च, खातों या बैंकिंग के बारे में पूछें…",
+    "send": "पूछें",
+    "thinking": "सोच रहा है…",
+    "empty": "अपने खातों या वित्त के बारे में मुझसे कुछ भी पूछें।",
+    "poweredBy": "द्वारा उत्तर दिया गया",
+    "sourceLLM": "एआई सहायक",
+    "sourceFALLBACK": "सिक्योरबैंक नियम",
+    "suggestions": {
+      "label": "यह पूछकर देखें",
+      "s1": "इस महीने मैंने कितना खर्च किया?",
+      "s2": "मेरी कुल शेष राशि क्या है?",
+      "s3": "मैं बचत खाता कैसे खोलूँ?"
+    }
+  },
+  "audit": {
+    "title": "ऑडिट लॉग",
+    "subtitle": "हर स्थिति परिवर्तन का अपरिवर्तनीय रिकॉर्ड",
+    "actor": "कर्ता",
+    "action": "कार्रवाई",
+    "entity": "इकाई",
+    "entityId": "इकाई आईडी",
+    "details": "विवरण",
+    "empty": "कोई ऑडिट प्रविष्टि नहीं मिली"
+  },
+  "errors": {
+    "generic": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+    "network": "नेटवर्क त्रुटि। अपना कनेक्शन जाँचें और पुनः प्रयास करें।",
+    "unauthorized": "आपका सत्र समाप्त हो गया है। कृपया फिर से साइन इन करें।",
+    "forbidden": "आपके पास ऐसा करने की अनुमति नहीं है।",
+    "notFound": "जो आप खोज रहे थे वह हमें नहीं मिला।",
+    "loadFailed": "डेटा लोड करने में विफल।",
+    "pageNotFound": "पृष्ठ नहीं मिला",
+    "pageNotFoundDesc": "आप जिस पृष्ठ की तलाश कर रहे हैं वह मौजूद नहीं है।",
+    "goHome": "डैशबोर्ड पर जाएँ",
+    "boundaryTitle": "अप्रत्याशित त्रुटि",
+    "boundaryDesc": "एप्लिकेशन में एक अप्रत्याशित त्रुटि आई। पुनः लोड करने का प्रयास करें।",
+    "reload": "पुनः लोड करें"
+  }
+}

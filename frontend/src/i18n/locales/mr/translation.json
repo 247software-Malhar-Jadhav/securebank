@@ -1,0 +1,213 @@
+{
+  "app": {
+    "name": "सिक्युअरबँक",
+    "tagline": "तुमची विश्वासार्ह डिजिटल बँक"
+  },
+  "nav": {
+    "dashboard": "डॅशबोर्ड",
+    "accounts": "खाती",
+    "transfer": "हस्तांतरण",
+    "beneficiaries": "लाभार्थी",
+    "assistant": "सहाय्यक",
+    "auditLogs": "ऑडिट नोंदी"
+  },
+  "common": {
+    "submit": "सबमिट करा",
+    "cancel": "रद्द करा",
+    "save": "जतन करा",
+    "close": "बंद करा",
+    "confirm": "पुष्टी करा",
+    "add": "जोडा",
+    "open": "उघडा",
+    "back": "मागे",
+    "loading": "लोड होत आहे…",
+    "search": "शोधा",
+    "all": "सर्व",
+    "none": "काहीही नाही",
+    "yes": "होय",
+    "no": "नाही",
+    "retry": "पुन्हा प्रयत्न करा",
+    "viewAll": "सर्व पहा",
+    "amount": "रक्कम",
+    "description": "वर्णन",
+    "date": "तारीख",
+    "status": "स्थिती",
+    "type": "प्रकार",
+    "reference": "संदर्भ",
+    "balance": "शिल्लक",
+    "actions": "कृती"
+  },
+  "theme": {
+    "toggle": "थीम बदला",
+    "light": "उजळ",
+    "dark": "गडद"
+  },
+  "language": {
+    "label": "भाषा",
+    "select": "भाषा निवडा"
+  },
+  "auth": {
+    "loginTitle": "पुन्हा स्वागत आहे",
+    "loginSubtitle": "तुमच्या सिक्युअरबँक खात्यात साइन इन करा",
+    "registerTitle": "तुमचे खाते तयार करा",
+    "registerSubtitle": "काही मिनिटांत सिक्युअरबँक खाते उघडा",
+    "username": "वापरकर्तानाव",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "firstName": "पहिले नाव",
+    "lastName": "आडनाव",
+    "preferredLocale": "पसंतीची भाषा",
+    "signIn": "साइन इन करा",
+    "signUp": "साइन अप करा",
+    "signingIn": "साइन इन होत आहे…",
+    "creatingAccount": "खाते तयार होत आहे…",
+    "logout": "लॉग आउट करा",
+    "noAccount": "खाते नाही?",
+    "haveAccount": "आधीच खाते आहे?",
+    "loginSuccess": "पुन्हा स्वागत आहे, {{name}}!",
+    "registerSuccess": "खाते तयार झाले. सिक्युअरबँकमध्ये तुमचे स्वागत आहे!",
+    "validation": {
+      "usernameRequired": "वापरकर्तानाव आवश्यक आहे",
+      "usernameMin": "वापरकर्तानाव किमान 3 अक्षरांचे असावे",
+      "emailRequired": "ईमेल आवश्यक आहे",
+      "emailInvalid": "वैध ईमेल पत्ता प्रविष्ट करा",
+      "passwordRequired": "पासवर्ड आवश्यक आहे",
+      "passwordMin": "पासवर्ड किमान 8 अक्षरांचा असावा",
+      "firstNameRequired": "पहिले नाव आवश्यक आहे",
+      "lastNameRequired": "आडनाव आवश्यक आहे"
+    }
+  },
+  "dashboard": {
+    "title": "डॅशबोर्ड",
+    "greeting": "नमस्कार, {{name}}",
+    "totalBalance": "एकूण शिल्लक",
+    "yourAccounts": "तुमची खाती",
+    "recentTransactions": "अलीकडील व्यवहार",
+    "spendingInsights": "खर्चाचे विश्लेषण",
+    "aiSummary": "एआय सारांश",
+    "noTransactions": "अद्याप कोणतेही व्यवहार नाहीत",
+    "noAccounts": "तुमचे अद्याप कोणतेही खाते नाही"
+  },
+  "accounts": {
+    "title": "खाती",
+    "accountNumber": "खाते क्रमांक",
+    "openAccount": "खाते उघडा",
+    "openAccountTitle": "नवीन खाते उघडा",
+    "openAccountDesc": "सुरुवात करण्यासाठी खाते प्रकार आणि चलन निवडा.",
+    "detailTitle": "खाते तपशील",
+    "transactions": "व्यवहार",
+    "openedOn": "उघडण्याची तारीख",
+    "openSuccess": "खाते यशस्वीरित्या उघडले",
+    "type": {
+      "SAVINGS": "बचत",
+      "CURRENT": "चालू",
+      "FIXED_DEPOSIT": "मुदत ठेव"
+    },
+    "statusLabel": {
+      "ACTIVE": "सक्रिय",
+      "FROZEN": "गोठवलेले",
+      "CLOSED": "बंद"
+    }
+  },
+  "transactions": {
+    "type": {
+      "DEPOSIT": "जमा",
+      "WITHDRAWAL": "काढणे",
+      "TRANSFER": "हस्तांतरण"
+    },
+    "statusLabel": {
+      "PENDING": "प्रलंबित",
+      "COMPLETED": "पूर्ण",
+      "FAILED": "अयशस्वी",
+      "REVERSED": "उलट केले"
+    }
+  },
+  "transfer": {
+    "title": "पैसे पाठवा",
+    "subtitle": "खात्यांमध्ये सुरक्षितपणे निधी हस्तांतरित करा",
+    "fromAccount": "कोणत्या खात्यातून",
+    "selectAccount": "एक खाते निवडा",
+    "toBeneficiary": "लाभार्थीला",
+    "toAccountNumber": "गंतव्य खाते क्रमांक",
+    "selectBeneficiary": "जतन केलेला लाभार्थी निवडा",
+    "orEnterManually": "किंवा खाते क्रमांक प्रविष्ट करा",
+    "send": "पैसे पाठवा",
+    "sending": "पाठवत आहे…",
+    "success": "हस्तांतरण पूर्ण",
+    "successDetail": "{{amount}} चे तुमचे हस्तांतरण यशस्वी झाले.",
+    "referenceLabel": "संदर्भ",
+    "newTransfer": "नवीन हस्तांतरण",
+    "validation": {
+      "fromRequired": "पाठवण्यासाठी एक खाते निवडा",
+      "toRequired": "गंतव्य खाते क्रमांक प्रविष्ट करा",
+      "amountRequired": "रक्कम प्रविष्ट करा",
+      "amountPositive": "रक्कम शून्यापेक्षा जास्त असावी",
+      "amountFormat": "वैध रक्कम प्रविष्ट करा (2 दशांशापर्यंत)",
+      "sameAccount": "स्रोत आणि गंतव्य समान असू शकत नाहीत"
+    }
+  },
+  "beneficiaries": {
+    "title": "लाभार्थी",
+    "subtitle": "तुम्ही ज्यांना पैसे देता त्यांचे व्यवस्थापन करा",
+    "add": "लाभार्थी जोडा",
+    "addTitle": "लाभार्थी जोडा",
+    "addDesc": "एक प्राप्तकर्ता जतन करा जेणेकरून तुम्ही त्यांना त्वरीत हस्तांतरण करू शकता.",
+    "name": "नाव",
+    "accountNumber": "खाते क्रमांक",
+    "bankName": "बँकेचे नाव",
+    "empty": "तुम्ही अद्याप कोणताही लाभार्थी जोडलेला नाही",
+    "addSuccess": "लाभार्थी जोडला",
+    "validation": {
+      "nameRequired": "नाव आवश्यक आहे",
+      "accountRequired": "खाते क्रमांक आवश्यक आहे"
+    }
+  },
+  "insights": {
+    "title": "खर्चाचे विश्लेषण",
+    "totalSpent": "एकूण खर्च",
+    "byCategory": "श्रेणीनुसार",
+    "period": "कालावधी",
+    "noData": "विश्लेषण दाखवण्यासाठी अद्याप पुरेसा डेटा नाही"
+  },
+  "assistant": {
+    "title": "सिक्युअरबँकला विचारा",
+    "subtitle": "तुमचा एआय बँकिंग सहाय्यक",
+    "placeholder": "तुमचा खर्च, खाती किंवा बँकिंगबद्दल विचारा…",
+    "send": "विचारा",
+    "thinking": "विचार करत आहे…",
+    "empty": "तुमच्या खात्यांबद्दल किंवा आर्थिक बाबींबद्दल मला काहीही विचारा.",
+    "poweredBy": "द्वारे उत्तर दिले",
+    "sourceLLM": "एआय सहाय्यक",
+    "sourceFALLBACK": "सिक्युअरबँक नियम",
+    "suggestions": {
+      "label": "हे विचारून पहा",
+      "s1": "या महिन्यात मी किती खर्च केला?",
+      "s2": "माझी एकूण शिल्लक किती आहे?",
+      "s3": "मी बचत खाते कसे उघडू?"
+    }
+  },
+  "audit": {
+    "title": "ऑडिट नोंदी",
+    "subtitle": "प्रत्येक स्थिती बदलाची अपरिवर्तनीय नोंद",
+    "actor": "कर्ता",
+    "action": "कृती",
+    "entity": "घटक",
+    "entityId": "घटक आयडी",
+    "details": "तपशील",
+    "empty": "कोणत्याही ऑडिट नोंदी आढळल्या नाहीत"
+  },
+  "errors": {
+    "generic": "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
+    "network": "नेटवर्क त्रुटी. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+    "unauthorized": "तुमचे सत्र संपले आहे. कृपया पुन्हा साइन इन करा.",
+    "forbidden": "हे करण्याची तुम्हाला परवानगी नाही.",
+    "notFound": "तुम्ही जे शोधत होता ते आम्हाला सापडले नाही.",
+    "loadFailed": "डेटा लोड करण्यात अयशस्वी.",
+    "pageNotFound": "पृष्ठ सापडले नाही",
+    "pageNotFoundDesc": "तुम्ही शोधत असलेले पृष्ठ अस्तित्वात नाही.",
+    "goHome": "डॅशबोर्डवर जा",
+    "boundaryTitle": "अनपेक्षित त्रुटी",
+    "boundaryDesc": "अनुप्रयोगात अनपेक्षित त्रुटी आली. पुन्हा लोड करण्याचा प्रयत्न करा.",
+    "reload": "पुन्हा लोड करा"
+  }
+}
