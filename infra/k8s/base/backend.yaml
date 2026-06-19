@@ -1,0 +1,129 @@
+# =============================================================================
+# Backend — Deployment + Service + HorizontalPodAutoscaler
+# =============================================================================
+# Spring Boot API. Env comes from backend-config (ConfigMap) + backend-secrets
+# (Secret). Probes hit Spring Boot Actuator's split liveness/readiness groups.
+# Virtual threads are enabled by the app; JVM flags below tune the runtime.
+# =============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: securebank
+  labels:
+    app.kubernetes.io/name: backend
+spec:
+  selector:
+    app.kubernetes.io/name: backend
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: securebank
+  labels:
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/part-of: securebank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0        # zero-downtime rollouts
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/api/actuator/prometheus"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/247software-malhar-jadhav/securebank-backend:latest
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+          env:
+            # Virtual threads (Project Loom) + modern GC. Spring property below
+            # also flips Tomcat to a virtual-thread-per-request executor.
+            - name: SPRING_THREADS_VIRTUAL_ENABLED
+              value: "true"
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -XX:+UseZGC -XX:+ZGenerational
+                -XX:MaxRAMPercentage=75.0
+                -Djdk.virtualThreadScheduler.parallelism=0
+          # --- Probes against Actuator (context path is /api) ---
+          startupProbe:            # gives the JVM time to boot before liveness kicks in
+            httpGet:
+              path: /api/actuator/health/liveness
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "768Mi"
+            limits:
+              cpu: "2"
+              memory: "1536Mi"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend
+  namespace: securebank
+  labels:
+    app.kubernetes.io/name: backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300   # avoid flapping

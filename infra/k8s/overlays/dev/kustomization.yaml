@@ -1,0 +1,51 @@
+# =============================================================================
+# DEV overlay — minimal footprint for a local cluster (kind/minikube/k3d).
+# =============================================================================
+#   kubectl apply -k infra/k8s/overlays/dev
+#
+# Differences from base:
+#   - single backend/frontend replica (save resources locally)
+#   - dev image tag
+#   - dev ingress host
+#   - HPA min/max trimmed
+# =============================================================================
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: securebank
+
+resources:
+  - ../../base
+
+images:
+  - name: ghcr.io/247software-malhar-jadhav/securebank-backend
+    newTag: dev
+  - name: ghcr.io/247software-malhar-jadhav/securebank-frontend
+    newTag: dev
+
+replicas:
+  - name: backend
+    count: 1
+  - name: frontend
+    count: 1
+
+patches:
+  # Trim the HPA so it doesn't try to scale on a tiny dev cluster.
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: backend
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 1
+      - op: replace
+        path: /spec/maxReplicas
+        value: 3
+  # Dev ingress host.
+  - target:
+      kind: Ingress
+      name: securebank
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: securebank.dev.local

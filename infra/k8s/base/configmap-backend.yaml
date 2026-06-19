@@ -1,0 +1,38 @@
+# Non-secret backend configuration. Service hostnames below are the in-cluster
+# Service names defined in this same base. Secrets (passwords, JWT, AI key) come
+# from the Secret, NOT here.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: securebank
+  labels:
+    app.kubernetes.io/name: backend
+    app.kubernetes.io/part-of: securebank
+data:
+  SPRING_PROFILES_ACTIVE: "docker"        # 'docker' profile = use service hostnames
+  SERVER_PORT: "8080"
+  SERVER_SERVLET_CONTEXT_PATH: "/api"
+
+  # Datasource (DB host is the postgres Service; DB name from spec)
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/securebank"
+
+  # Redis
+  SPRING_DATA_REDIS_HOST: "redis"
+  SPRING_DATA_REDIS_PORT: "6379"
+
+  # Kafka
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+
+  # RabbitMQ
+  SPRING_RABBITMQ_HOST: "rabbitmq"
+  SPRING_RABBITMQ_PORT: "5672"
+
+  # Actuator — expose health/info/prometheus, split liveness & readiness probes
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus,metrics"
+  MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+  MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED: "true"
+  MANAGEMENT_HEALTH_READINESSSTATE_ENABLED: "true"
+
+  # i18n default
+  SECUREBANK_DEFAULT_LOCALE: "en"

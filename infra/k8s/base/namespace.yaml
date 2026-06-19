@@ -1,0 +1,8 @@
+# All SecureBank objects live in their own namespace for isolation + RBAC.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: securebank
+  labels:
+    app.kubernetes.io/part-of: securebank
+    name: securebank

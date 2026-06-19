@@ -1,0 +1,86 @@
+# =============================================================================
+# RECOMMENDED PRODUCTION KAFKA — Strimzi operator (EXAMPLE, not in kustomization)
+# =============================================================================
+# Strimzi manages Kafka on Kubernetes declaratively. This file is documentation:
+# it is intentionally NOT referenced by base/kustomization.yaml because it
+# requires the Strimzi operator + CRDs to be installed first.
+#
+# 1) Install the operator (watches the 'securebank' namespace):
+#      kubectl create namespace securebank --dry-run=client -o yaml | kubectl apply -f -
+#      kubectl create -f 'https://strimzi.io/install/latest?namespace=securebank' -n securebank
+#
+# 2) Apply this CR:
+#      kubectl apply -f kafka-strimzi.example.yaml -n securebank
+#
+# 3) Create topics declaratively with the KafkaTopic CRs at the bottom.
+# =============================================================================
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: securebank
+  namespace: securebank
+spec:
+  kafka:
+    version: 3.7.0
+    replicas: 3                       # 3 brokers for HA
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+    config:
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      default.replication.factor: 3
+      min.insync.replicas: 2
+    storage:
+      type: persistent-claim
+      size: 20Gi
+      deleteClaim: false
+  zookeeper:
+    replicas: 3
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: securebank.transactions
+  namespace: securebank
+  labels:
+    strimzi.io/cluster: securebank
+spec:
+  partitions: 6
+  replicas: 3
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: securebank.fraud-alerts
+  namespace: securebank
+  labels:
+    strimzi.io/cluster: securebank
+spec:
+  partitions: 3
+  replicas: 3
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: securebank.notifications
+  namespace: securebank
+  labels:
+    strimzi.io/cluster: securebank
+spec:
+  partitions: 6
+  replicas: 3

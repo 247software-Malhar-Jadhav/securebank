@@ -1,0 +1,44 @@
+# =============================================================================
+# Ingress — nginx ingress controller routing
+# =============================================================================
+#   /        -> frontend Service (the React SPA)
+#   /api     -> backend Service  (the Spring Boot API, context path /api)
+#
+# Requires an ingress-nginx controller in the cluster:
+#   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+# For kind/minikube see infra/docs/kubernetes-guide.md.
+#
+# The host below is a placeholder; overlays patch it per-environment. For local
+# testing, map it in /etc/hosts to your ingress IP, or just use port-forward.
+# =============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: securebank
+  namespace: securebank
+  labels:
+    app.kubernetes.io/name: securebank
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # Keep the /api prefix when forwarding (backend's context path IS /api).
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: securebank.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

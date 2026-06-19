@@ -1,0 +1,38 @@
+# =============================================================================
+# Kustomize BASE — the full SecureBank stack.
+# =============================================================================
+# Overlays (overlays/dev, overlays/prod) layer on top of this. Apply an overlay,
+# not the base directly:
+#   kubectl apply -k infra/k8s/overlays/dev
+#
+# Note: kafka-strimzi.example.yaml is intentionally NOT listed here — it needs
+# the Strimzi operator/CRDs installed first (it is reference documentation).
+# =============================================================================
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: securebank
+
+resources:
+  - namespace.yaml
+  - secret.yaml
+  - configmap-backend.yaml
+  - configmap-frontend.yaml
+  - postgres.yaml
+  - redis.yaml
+  - kafka.yaml
+  - rabbitmq.yaml
+  - backend.yaml
+  - frontend.yaml
+  - ingress.yaml
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: securebank
+    includeSelectors: false      # add as metadata only, don't mutate selectors
+
+images:
+  - name: ghcr.io/247software-malhar-jadhav/securebank-backend
+    newTag: latest
+  - name: ghcr.io/247software-malhar-jadhav/securebank-frontend
+    newTag: latest

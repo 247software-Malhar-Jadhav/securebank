@@ -1,0 +1,67 @@
+# =============================================================================
+# PROD overlay — production-leaning defaults.
+# =============================================================================
+#   kubectl apply -k infra/k8s/overlays/prod
+#
+# IMPORTANT production notes (see infra/docs/kubernetes-guide.md):
+#   - Replace base/secret.yaml with Sealed Secrets / Vault / External Secrets.
+#   - Prefer a MANAGED Postgres (RDS/Cloud SQL) over the in-cluster StatefulSet:
+#     remove postgres.yaml from the rendered set and point the datasource URL at
+#     the managed endpoint (patch backend-config + backend-secrets).
+#   - Prefer the Strimzi operator for Kafka (base/kafka-strimzi.example.yaml).
+#   - Pin image tags to an immutable release/sha, never 'latest'.
+# =============================================================================
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: securebank
+
+resources:
+  - ../../base
+
+images:
+  - name: ghcr.io/247software-malhar-jadhav/securebank-backend
+    newTag: v1.0.0          # pin to a release tag in real prod
+  - name: ghcr.io/247software-malhar-jadhav/securebank-frontend
+    newTag: v1.0.0
+
+replicas:
+  - name: backend
+    count: 3
+  - name: frontend
+    count: 3
+
+patches:
+  # Production HPA headroom.
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: backend
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 3
+      - op: replace
+        path: /spec/maxReplicas
+        value: 12
+  # Production ingress host + force TLS.
+  - target:
+      kind: Ingress
+      name: securebank
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: app.securebank.example.com
+      - op: replace
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1ssl-redirect
+        value: "true"
+  # Bump backend resource requests for steady prod load.
+  - target:
+      kind: Deployment
+      name: backend
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: "1"
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: "1Gi"
