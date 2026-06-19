@@ -1,0 +1,171 @@
+# =============================================================================
+# SecureBank backend - primary configuration (default / local profile).
+#
+# Values here assume you are running the supporting services on localhost
+# (Postgres, Redis, Kafka, RabbitMQ). When running everything inside Docker
+# Compose, activate the "docker" profile (application-docker.yml) which swaps
+# the hostnames for the compose service names.
+# =============================================================================
+
+spring:
+  application:
+    name: securebank-api
+
+  # ---- Project Loom virtual threads ----
+  # With this flag Spring Boot runs the Tomcat request executor on virtual
+  # threads. Blocking JDBC / Redis / HTTP calls inside a request no longer pin
+  # a scarce OS thread, so we can serve very high concurrency cheaply. This is
+  # the single most important "modern Java" switch in the whole app.
+  threads:
+    virtual:
+      enabled: true
+
+  # ---- Relational system of record (PostgreSQL) ----
+  datasource:
+    url: jdbc:postgresql://localhost:5432/securebank
+    username: securebank
+    password: securebank
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      # A modest pool is fine: virtual threads don't need one-thread-per-request,
+      # but the DB itself still has a finite connection budget.
+      maximum-pool-size: 20
+      pool-name: securebank-pool
+
+  jpa:
+    # Flyway owns the schema. JPA only VALIDATES that the entities line up with
+    # the migrated tables - it never creates or alters anything itself.
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+    show-sql: false
+
+  # ---- Flyway database migrations ----
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # ---- Redis (caching + Redisson distributed locks) ----
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  # ---- Kafka (domain event backbone) ----
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: securebank-backend
+      auto-offset-reset: earliest
+      # We use JSON over the wire; the JsonDeserializer is configured in
+      # KafkaConfig so we can trust our own package and avoid header coupling.
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.securebank.*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  # ---- RabbitMQ (notification delivery work queue) ----
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# ---- HTTP server ----
+server:
+  port: 8080
+  servlet:
+    # Every endpoint in the spec is prefixed with /api. Setting the context-path
+    # here means controllers use clean paths like /auth/login and Spring prepends
+    # /api automatically.
+    context-path: /api
+
+# ---- Actuator / Prometheus ----
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+  metrics:
+    tags:
+      application: securebank-api
+
+# ---- springdoc / Swagger UI ----
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+
+# =============================================================================
+# Application-specific settings (bound to typed @ConfigurationProperties beans).
+# =============================================================================
+securebank:
+  # ---- JWT signing / claims ----
+  jwt:
+    # NOTE: this is a development-only secret. In production it MUST come from a
+    # secret manager / environment variable, never source control. It must be
+    # long enough for HS256 (>= 32 bytes).
+    secret: "change-me-in-prod-securebank-super-secret-signing-key-0123456789"
+    issuer: securebank
+    access-token-expiry-minutes: 15
+    refresh-token-expiry-days: 7
+
+  # ---- Account lockout ----
+  security:
+    max-failed-attempts: 5
+    lockout-minutes: 15
+
+  # ---- Money-movement limits (used by the validation chain) ----
+  transaction:
+    per-transaction-limit: 1000000.0000
+    daily-transfer-limit: 5000000.0000
+
+  # ---- AI provider configuration ----
+  # The assistant and spending-insight summaries call Claude via the Anthropic
+  # SDK when 'enabled' is true AND an api-key is present. If either is missing we
+  # transparently fall back to a deterministic, template-based provider so the
+  # API never hard-fails just because the LLM is unavailable.
+  ai:
+    enabled: true
+    base-url: "https://api.anthropic.com"
+    api-key: ""           # leave blank to force the deterministic fallback
+    model: "claude-opus-4-8"
+    max-tokens: 1024
+
+# =============================================================================
+# Resilience4j - circuit breaker + retry around the external Claude AI call.
+# The instance name "anthropicAi" matches the @CircuitBreaker / @Retry names in
+# LlmAiProvider. When the breaker opens, calls fast-fail to the fallback (which
+# returns a sentinel) so the service can switch to the deterministic provider.
+# =============================================================================
+resilience4j:
+  circuitbreaker:
+    instances:
+      anthropicAi:
+        sliding-window-size: 10
+        failure-rate-threshold: 50          # open at 50% failures over the window
+        wait-duration-in-open-state: 30s    # cool-down before half-open
+        permitted-number-of-calls-in-half-open-state: 3
+        register-health-indicator: true
+  retry:
+    instances:
+      anthropicAi:
+        max-attempts: 3
+        wait-duration: 500ms
+        # Don't retry on the breaker's own "circuit open" rejection.
+        ignore-exceptions:
+          - io.github.resilience4j.circuitbreaker.CallNotPermittedException

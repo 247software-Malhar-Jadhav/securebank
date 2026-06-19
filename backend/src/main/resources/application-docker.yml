@@ -1,0 +1,34 @@
+# =============================================================================
+# SecureBank backend - "docker" profile override.
+#
+# Activate with SPRING_PROFILES_ACTIVE=docker (the Dockerfile / compose sets
+# this). The ONLY thing that changes versus the default profile is the host
+# names: inside a Docker Compose network each service is reachable by its
+# compose service name instead of localhost.
+# =============================================================================
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/securebank
+    username: securebank
+    password: securebank
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+  kafka:
+    bootstrap-servers: kafka:9092
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+securebank:
+  ai:
+    # In container deployments the key is injected via an environment variable
+    # (SECUREBANK_AI_API_KEY) so it never lives in an image layer.
+    api-key: ${SECUREBANK_AI_API_KEY:}
