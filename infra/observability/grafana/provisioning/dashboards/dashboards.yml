@@ -1,0 +1,13 @@
+# Tell Grafana to load any dashboards dropped into /var/lib/grafana/dashboards.
+# (None are shipped by default; import the official "JVM (Micrometer)" dashboard
+# id 4701 and "Spring Boot Statistics" id 6756 from the Grafana UI to get going.)
+apiVersion: 1
+providers:
+  - name: SecureBank
+    orgId: 1
+    folder: SecureBank
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
