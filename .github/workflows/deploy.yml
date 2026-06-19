@@ -1,0 +1,54 @@
+# =============================================================================
+# Deploy (TEMPLATE / GATED) — manual kubectl apply of the k8s overlays.
+# =============================================================================
+# This is intentionally a manual, opt-in template. It will NOT run automatically.
+# Before enabling it for a real cluster:
+#   1. Add a repo secret KUBE_CONFIG containing a base64-encoded kubeconfig that
+#      is scoped (RBAC) to deploy into the 'securebank' namespace only.
+#   2. Review the overlay (dev/prod) and image tags.
+#   3. Consider an environment + required reviewers for prod (uncomment below).
+#
+# Trigger: Actions tab -> "Deploy" -> Run workflow -> pick the overlay.
+# =============================================================================
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      overlay:
+        description: "Kustomize overlay to apply"
+        required: true
+        default: dev
+        type: choice
+        options: [dev, prod]
+
+jobs:
+  deploy:
+    name: kubectl apply (${{ inputs.overlay }})
+    runs-on: ubuntu-latest
+    # Uncomment to gate prod behind a protected GitHub Environment with reviewers:
+    # environment: ${{ inputs.overlay }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+
+      - name: Validate manifests (server-side dry run)
+        run: kubectl apply -k "infra/k8s/overlays/${{ inputs.overlay }}" --dry-run=server
+
+      - name: Apply manifests
+        run: kubectl apply -k "infra/k8s/overlays/${{ inputs.overlay }}"
+
+      - name: Wait for rollout
+        run: |
+          kubectl -n securebank rollout status deployment/backend  --timeout=180s
+          kubectl -n securebank rollout status deployment/frontend --timeout=120s

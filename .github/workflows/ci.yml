@@ -1,0 +1,122 @@
+# =============================================================================
+# CI — build & test backend and frontend in parallel on every push / PR.
+# =============================================================================
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+
+# Cancel superseded runs on the same ref to save minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Backend — Java 21, Maven, with real Postgres + Redis service containers.
+  # (Testcontainers-based tests also work; the services give a fast default DB.)
+  # ---------------------------------------------------------------------------
+  backend:
+    name: Backend (Java 21 / Maven)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: securebank
+          POSTGRES_USER: securebank
+          POSTGRES_PASSWORD: securebank
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U securebank -d securebank"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven        # caches ~/.m2 keyed on pom hashes
+
+      - name: Make mvnw executable
+        run: chmod +x ./mvnw
+
+      - name: Build, test & verify
+        env:
+          # Point the test run at the service containers (CI profile in app config).
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/securebank
+          SPRING_DATASOURCE_USERNAME: securebank
+          SPRING_DATASOURCE_PASSWORD: securebank
+          SPRING_DATA_REDIS_HOST: localhost
+          SPRING_DATA_REDIS_PORT: "6379"
+        run: ./mvnw -B --no-transfer-progress verify
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-surefire-reports
+          path: backend/target/surefire-reports/
+          if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------
+  # Frontend — Node, npm ci, lint, test, build.
+  # ---------------------------------------------------------------------------
+  frontend:
+    name: Frontend (Node / Vite)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+          if-no-files-found: ignore
