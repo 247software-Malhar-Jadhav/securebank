@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * SecureBank design tokens.
+ *
+ * Every color is expressed as raw HSL channel numbers ("H S% L%") in a CSS variable.
+ * Tailwind wraps them with hsl(var(--x)) (see tailwind.config.js). Defining colors this
+ * way — instead of hard-coded hex in components — is the core shadcn idea: theming is
+ * just swapping variable values, and the `.dark` block below overrides them for dark mode.
+ *
+ * Palette intent: a trustworthy retail-banking look. Deep blue is the brand/primary
+ * (security, stability), a calm green is the "success / money-in" accent, and a warm red
+ * is reserved for destructive / money-out states.
+ */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Brand blue */
+    --primary: 221 83% 45%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 94%;
+    --accent-foreground: 222 47% 11%;
+
+    /* Money-out / errors */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Money-in / positive */
+    --success: 152 60% 36%;
+    --success-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 45%;
+
+    --radius: 0.6rem;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 44% 11%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 44% 11%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 20%;
+    --accent-foreground: 210 40% 96%;
+
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 152 52% 46%;
+    --success-foreground: 222 47% 11%;
+
+    --border: 217 33% 20%;
+    --input: 217 33% 22%;
+    --ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
