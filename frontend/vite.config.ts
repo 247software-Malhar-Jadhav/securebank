@@ -21,10 +21,13 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    // Port and proxy target can be overridden via env (VITE_DEV_PORT / VITE_API_PROXY)
+    // so the dev server can sidestep ports already in use on the host. Defaults match
+    // the project spec (5173 -> backend :8080).
+    port: Number(process.env.VITE_DEV_PORT) || 5173,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: process.env.VITE_API_PROXY || "http://localhost:8080",
         changeOrigin: true,
         // We do NOT rewrite the path: the backend already serves under /api
         // (context path /api per the spec), so /api/accounts -> :8080/api/accounts.
